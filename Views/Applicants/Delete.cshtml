@@ -1,0 +1,72 @@
+﻿@model sol_Job_Bank.Models.Applicant
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Applicant</h4>
+    <hr />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <dl class="row">
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.MiddleName)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.MiddleName)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.SIN)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.SIN)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.eMail)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.eMail)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.RetrainingProgram)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.RetrainingProgram.Name)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="ID" />
+        <input type="hidden" name="returnURL" value="@ViewData["returnURL"]" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        @if (String.IsNullOrEmpty(ViewData["returnURL"]?.ToString()))
+        {
+            <a asp-action="Index">Back to List of Patients</a>
+        }
+        else
+        {
+            <a href='@ViewData["returnURL"]'>Back to List of Patients</a>
+        }
+    </form>
+</div>

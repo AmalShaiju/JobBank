@@ -1,0 +1,54 @@
+﻿@model IEnumerable<sol_Job_Bank.Models.Application>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>List of Applications</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <colgroup>
+        <col width="400" />
+        <col width="250" />
+        <col />
+        <col width="180" />
+    </colgroup>
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Posting)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Applicant)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comments)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Posting.PostingSummary)<br />
+                @Html.DisplayFor(modelItem => item.Posting.OpeningsSummary)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Applicant.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comments)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

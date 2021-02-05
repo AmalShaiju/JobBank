@@ -1,0 +1,47 @@
+﻿@model sol_Job_Bank.Models.Application
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Application</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Comments" class="control-label"></label>
+                <textarea asp-for="Comments" class="form-control"></textarea>
+                <span asp-validation-for="Comments" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PostingID" class="control-label"></label>
+                <select asp-for="PostingID" class="form-control" asp-items="ViewBag.PostingID">
+                    <option value="">Select a Posting</option>
+                </select>
+                <span asp-validation-for="PostingID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ApplicantID" class="control-label"></label>
+                <select asp-for="ApplicantID" class="form-control" asp-items="ViewBag.ApplicantID">
+                    <option value="">Select an Applicant</option>
+                </select>
+                <span asp-validation-for="ApplicantID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List of Applications</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

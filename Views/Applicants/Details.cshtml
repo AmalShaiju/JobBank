@@ -1,0 +1,143 @@
+﻿@model sol_Job_Bank.Models.Applicant
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Applicant</h4>
+    @{
+        if (Model.ApplicantPhoto != null)
+        {
+            @:<div>
+                if (Model.ApplicantPhoto.FileContent.Content != null && Model.ApplicantPhoto.MimeType.Contains("image"))
+                {
+                    string imageBase64 = Convert.ToBase64String(Model.ApplicantPhoto.FileContent.Content);
+                    string imageSrc = string.Format("data:" + Model.ApplicantPhoto.MimeType + ";base64,{0}", imageBase64);
+                    <img src="@imageSrc" alt="Profile Picture of @Model.FullName" title="Profile Picture of @Model.FullName" class="img-fluid rounded" />
+                }
+            @:</div><hr />
+        }
+    }
+    <hr />
+    <div class="row">
+        <div class="col-md-5">
+
+            <dl class="row">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.FirstName)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.MiddleName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.MiddleName)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.LastName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.LastName)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.SIN)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.SIN)
+                </dd>
+                <dt class="col-sm-4">
+                     Documents
+                </dt>
+                <dd class="col-sm-8">
+                    @{
+                        int fileCount = Model.ApplicantDocuments.Count;
+                        if (fileCount > 0)
+                        {
+                            var firstFile = Model.ApplicantDocuments.FirstOrDefault(); ;
+                            if (fileCount > 1)
+                            {
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                File Name
+                                            </th>
+                                            <th>
+                                                Description
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var d in Model.ApplicantDocuments)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <a asp-action="Download" asp-route-id="@d.ID">@d.FileName</a>
+                                                </td>
+                                                <td>
+                                                    @Html.Raw(d.Description)
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                            else
+                            {
+                                <a asp-action="Download" asp-route-id="@firstFile.ID">@firstFile.FileName</a>
+                            }
+                        }
+                    }
+                </dd>
+            </dl>
+        </div>
+        <div class="col-md-6">
+            <dl class="row">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Phone)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Phone)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.eMail)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.eMail)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.RetrainingProgram)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.RetrainingProgram.Name)
+                </dd>
+             
+            </dl>
+        </div>
+    </div>
+    <hr />
+    <div class="offset-1">
+        <h5>Applicaitons Submitted by: @Model.FullName</h5>
+        @foreach (var a in Model.Applications)
+        {
+            @a.Posting.PostingSummary <br />
+        }
+    </div>
+</div>
+<br />
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
+  @if (String.IsNullOrEmpty(ViewData["returnURL"]?.ToString()))
+    {
+        <a asp-action="Index">Back to List of Patients</a>
+    }
+    else
+    {
+        <a href='@ViewData["returnURL"]'>Back to List of Patients</a>
+    }
+</div>

@@ -1,0 +1,123 @@
+﻿@model sol_Job_Bank.Models.Applicant
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Applicant</h4>
+<hr />
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" name="returnURL" value="@ViewData["returnURL"]" />
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MiddleName" class="control-label"></label>
+                <input asp-for="MiddleName" class="form-control" />
+                <span asp-validation-for="MiddleName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SIN" class="control-label"></label>
+                <input asp-for="SIN" class="form-control" />
+                <span asp-validation-for="SIN" class="text-danger"></span>
+            </div>
+
+            <div class="form-group custom-file mt-3 mb-4">
+                <label class="control-label custom-file-label">Picture File:</label>
+                <input type="file" class="custom-file-input" name="thePicture" /><br />
+            </div>
+            <br />
+            <div class="form-group">
+                <label class="control-label">Upload Additional Documents:</label>
+                <input type="file" class="" name="theFiles" multiple="multiple" />
+            </div>
+            <br/>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Phone" class="control-label"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="eMail" class="control-label"></label>
+                <input asp-for="eMail" class="form-control" />
+                <span asp-validation-for="eMail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RetrainingProgramID" class="control-label"></label>
+                <select asp-for="RetrainingProgramID" class="form-control" asp-items="ViewBag.RetrainingProgramID">
+                    <option value="">None</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 offset-1">
+            <div class="form-group">
+                <label class="control-label">@Html.DisplayNameFor(model => model.ApplicantSkills)</label>
+                <div class="col-md-offset-1">
+                    <table>
+                        <tr>
+                            @{
+                                int cnt = 0;
+                                List<sol_Job_Bank.ViewModels.OptionVM> checkboxes = ViewBag.SkillOptions;
+                                foreach (var checkbox in checkboxes)
+                                {
+                                    if (cnt++ % 3 == 0)
+                                    {
+                                    @:</tr><tr>
+                                    }
+                                    @:<td>
+                                        <input type="checkbox"
+                                               name="selectedOptions"
+                                               value="@checkbox.ID"
+                                               @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
+                                        @checkbox.DisplayText @:&nbsp;&nbsp;
+                                    @:</td>
+                                }
+                            @:</tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+
+            </div>
+        </div>
+    </form>
+    <div>
+        @if (String.IsNullOrEmpty(ViewData["returnURL"]?.ToString()))
+        {
+            <a asp-action="Index">Back to List of Patients</a>
+        }
+        else
+        {
+            <a href='@ViewData["returnURL"]'>Back to List of Patients</a>
+        }
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        <script type="text/javascript">
+            $(".custom-file-input").on("change", function () {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+            });</script>
+    }

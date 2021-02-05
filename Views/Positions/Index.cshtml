@@ -1,0 +1,97 @@
+﻿@model IEnumerable<sol_Job_Bank.Models.Position>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>List of Positions</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<form asp-action="Index" method="get">
+    <table class="table">
+        <colgroup>
+            <col width="200" />
+            <col width="300" />
+            <col width="200" />
+            <col width="200" />
+            <col width="180" />
+        </colgroup>
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Occupation)
+                </th>
+                <th>
+                    Skills
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)<br />
+                        Salary: @Html.DisplayFor(modelItem => item.Salary)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Occupation.Title)
+                    </td>
+                    <td>
+                        @{
+                            int skillCount = item.PositionSkills.Count;
+                            if (skillCount > 0)
+                            {
+                                string firstSkill = item.PositionSkills.FirstOrDefault().Skill.Name;
+                                if (skillCount > 1)
+                                {
+                                    string skillList = "";
+                                    var c = item.PositionSkills.ToList();
+                                    for (int i = 1; i < skillCount; i++)
+                                    {
+                                        skillList += c[i].Skill.Name + " <br />";
+                                    }
+                                    <a class="" role="button" data-toggle="collapse" href="#collapseSum@(item.ID)" aria-expanded="false" aria-controls="collapseSum@(item.ID)">
+                                        @firstSkill... <span class="badge badge-info">@skillCount</span>
+                                    </a>
+                                    <div class="collapse" id="collapseSum@(item.ID)">
+                                        @Html.Raw(skillList)
+                                    </div>
+                                }
+                                else
+                                {
+                                    @firstSkill
+                                }
+                            }
+                        }
+                        @*For help with Bootstrap Collapse see: https://getbootstrap.com/docs/4.3/components/collapse/*@
+                    </td>
+                    @*<td>
+                            @foreach (var s in item.PositionSkills)
+                            {
+                                @s.Skill.Name <br />
+                            }
+                        </td>*@
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <partial name="_PagingNavBar" />
+</form>
